@@ -13,8 +13,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.network.models.Address
@@ -30,7 +30,7 @@ import java.util.Locale
 class RepresentativeFragment : Fragment() {
 
     private lateinit var binding: FragmentRepresentativeBinding
-    private lateinit var viewModel: RepresentativeViewModel
+    private val viewModel by viewModels<RepresentativeViewModel>()
     private lateinit var representativeAdapter: RepresentativeListAdapter
 
 
@@ -39,12 +39,6 @@ class RepresentativeFragment : Fragment() {
         private const val REQUEST_TURN_DEVICE_LOCATION_ON = 2
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = Factory(application)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(RepresentativeViewModel::class.java)
-    }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -57,7 +51,6 @@ class RepresentativeFragment : Fragment() {
         )
 
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
 
         representativeAdapter = RepresentativeListAdapter()
         binding.representativesRecycler.adapter = representativeAdapter
@@ -187,8 +180,9 @@ class RepresentativeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     private fun geoCodeLocation(location: Location): Address {
-        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val geocoder = Geocoder(context!!, Locale.getDefault())
         return geocoder.getFromLocation(location.latitude, location.longitude, 1)!!
             .map { address ->
                 Address(
