@@ -32,7 +32,6 @@ class ElectionsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?)
     : View? {
-        Log.e("HiepNCH","HiepNCH")
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_election,
