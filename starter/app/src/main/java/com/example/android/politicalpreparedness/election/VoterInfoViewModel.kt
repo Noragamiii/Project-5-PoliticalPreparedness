@@ -1,6 +1,7 @@
 package com.example.android.politicalpreparedness.election
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.database.ElectionDatabase
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 class VoterInfoViewModel(val election: Election, app: Application) : AndroidViewModel(app) {
 
     val showToast: SingleLiveEvent<String> = SingleLiveEvent()
+    val openUrl: SingleLiveEvent<String> = SingleLiveEvent()
 
     private val database = ElectionDatabase.getInstance(app)
     private val electionsRepository = ElectionsRepository(database)
@@ -59,7 +61,9 @@ class VoterInfoViewModel(val election: Election, app: Application) : AndroidView
     }
 
     fun onURLClick(url: String) {
+        Log.e("HiepNCH","aaaaaaaa")
         this.url.value = url
+        openUrl.value = url
     }
 
 }

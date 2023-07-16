@@ -102,25 +102,25 @@ class RepresentativeFragment : Fragment() {
             isPermissionGranted() -> {
                 getLocation()
             }
-        shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                Snackbar.make(
-                    requireActivity().findViewById(android.R.id.content),
-                    R.string.location_permission_explain,
-                    Snackbar.LENGTH_INDEFINITE
-                )
-                    .setAction(android.R.string.ok) {
-                        requestPermissions(
-                            arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                            REQUEST_LOCATION_PERMISSION
-                        )
-                    }.show()
-            }
-            else -> {
-                requestPermissions(
-                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_LOCATION_PERMISSION
-                )
-            }
+            shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                    Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        R.string.location_permission_explain,
+                        Snackbar.LENGTH_INDEFINITE
+                    )
+                        .setAction(android.R.string.ok) {
+                            requestPermissions(
+                                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                                REQUEST_LOCATION_PERMISSION
+                            )
+                        }.show()
+                }
+                else -> {
+                    requestPermissions(
+                        arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                        REQUEST_LOCATION_PERMISSION
+                    )
+                }
         }
     }
 
@@ -161,21 +161,23 @@ class RepresentativeFragment : Fragment() {
                     getLocation()
                 }.show()
             }
-            locationSettingsResponseTask.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val locationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
-                    locationClient.lastLocation
-                        .addOnSuccessListener { location: Location? ->
-                            if (location != null) {
-                                val address = geoCodeLocation(location)
-                                viewModel.address.value = address
-                                val states = resources.getStringArray(R.array.states)
-                                val selectedStateIndex = states.indexOfFirst { it == address.state }
-                                binding.state.setSelection(selectedStateIndex)
-                                viewModel.getRepresentatives()
-                            }
+        }
+        locationSettingsResponseTask.addOnCompleteListener {
+            Log.e("checkLocationPermissions","permisss1")
+            if (it.isSuccessful) {
+                Log.e("checkLocationPermissions","permisss")
+                val locationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
+                locationClient.lastLocation
+                    .addOnSuccessListener { location: Location? ->
+                        if (location != null) {
+                            val address = geoCodeLocation(location)
+                            viewModel.address.value = address
+                            val states = resources.getStringArray(R.array.states)
+                            val selectedStateIndex = states.indexOfFirst { it == address.state }
+                            binding.state.setSelection(selectedStateIndex)
+                            viewModel.getRepresentatives()
                         }
-                }
+                    }
             }
         }
     }

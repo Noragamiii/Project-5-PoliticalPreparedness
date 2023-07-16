@@ -23,7 +23,6 @@
             android:singleLine="true"
             android:text="@{viewModel.election.name}"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="57dp"
             tools:text="Election Name" />
 
         <TextView
@@ -40,6 +39,8 @@
             style="@style/styleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/election_information"
             app:layout_constraintTop_toBottomOf="@id/election_date"
             app:layout_constraintStart_toStartOf="@id/election_date" />
@@ -48,8 +49,10 @@
             android:id="@+id/state_locations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:onClick="@{()->viewModel.onURLClick(viewModel.voterInfo.state[0].electionAdministrationBody.votingLocationFinderUrl)}"
             android:text="@string/voting_locations"
+            app:isVisible="@{viewModel.voterInfo.state[0].electionAdministrationBody.votingLocationFinderUrl}"
             app:layout_constraintTop_toBottomOf="@id/state_header"
             app:layout_constraintStart_toStartOf="@id/election_date" />
 
@@ -57,7 +60,9 @@
             android:id="@+id/state_ballot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/ballot_information"
             android:onClick="@{()->viewModel.onURLClick(viewModel.voterInfo.state[0].electionAdministrationBody.electionInfoUrl)}"
+            app:isVisible="@{viewModel.voterInfo.state[0].electionAdministrationBody.electionInfoUrl}"
             app:layout_constraintTop_toBottomOf="@id/state_locations"
             app:layout_constraintStart_toStartOf="@id/election_date" />
 
@@ -82,8 +87,9 @@
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginTop="16dp"
             android:text="@{viewModel.voterInfo.state.get(0).electionAdministrationBody.correspondenceAddress.toFormattedString()}"
+            app:isVisible="@{viewModel.voterInfo.state.get(0).electionAdministrationBody.correspondenceAddress.toFormattedString()}"
             app:layout_constraintTop_toBottomOf="@id/state_correspondence_header"
             app:layout_constraintStart_toStartOf="@id/election_date" />
 
@@ -93,6 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            app:isFollowText="@{viewModel.isVote}"
             android:onClick="@{() -> viewModel.saveElection(viewModel.election)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

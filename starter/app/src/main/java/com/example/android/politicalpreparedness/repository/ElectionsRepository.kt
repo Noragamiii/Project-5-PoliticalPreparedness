@@ -53,10 +53,11 @@ class ElectionsRepository(private val database: ElectionDatabase) {
 
     suspend fun refreshElections(): Result<ElectionResponse> {
         return try {
-                val result = service.getUpcomingElections()
-                database.electionDao.insertElections(result.elections)
-                Result.Success(service.getUpcomingElections())
-
+            withContext(Dispatchers.IO) {
+            val result = service.getUpcomingElections()
+            database.electionDao.insertElections(result.elections)
+            Result.Success(service.getUpcomingElections())
+            }
         } catch (e: Exception) {
             Log.d(TAG, "Error refreshElections: " + e.message)
             Result.Error(e.localizedMessage)

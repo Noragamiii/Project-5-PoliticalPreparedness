@@ -48,6 +48,6 @@ class DiffCallback : DiffUtil.ItemCallback<Election>() {
     }
 }
 
-class ElectionListener(private val onElectionClicked: (election: Election) -> Unit) {
-    fun onElectionClicked(election: Election) = onElectionClicked.invoke(election)
+class ElectionListener(var block: (election: Election) -> Unit) {
+    fun onElectionClicked(election: Election) = block(election)
 }

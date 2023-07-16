@@ -1,6 +1,7 @@
 package com.example.android.politicalpreparedness.election
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +19,6 @@ class ElectionsViewModel(app:Application): AndroidViewModel(app) {
 
     val showToast: SingleLiveEvent<String> = SingleLiveEvent()
     val showLoading: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    val navigationCommand: SingleLiveEvent<NavigationCommand> = SingleLiveEvent()
 
     private val database = getInstance(app)
     private val electionsRepository = ElectionsRepository(database)
@@ -38,19 +38,12 @@ class ElectionsViewModel(app:Application): AndroidViewModel(app) {
                 is Result.Success -> {
                     _upcomingElections.value = result.data.elections
                 }
-                else -> {
+                is Result.Error -> {
                     _upcomingElections.value = emptyList()
                     showToast.value = app.getString(R.string.error_upcoming_election)
                 }
             }
         }
-    }
-
-    fun onClickItem(election: Election) {
-        navigationCommand.value = NavigationCommand.To(
-            ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment
-                (election)
-        )
     }
 
 }
