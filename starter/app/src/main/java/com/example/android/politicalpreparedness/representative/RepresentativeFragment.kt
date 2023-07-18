@@ -163,9 +163,7 @@ class RepresentativeFragment : Fragment() {
             }
         }
         locationSettingsResponseTask.addOnCompleteListener {
-            Log.e("checkLocationPermissions","permisss1")
             if (it.isSuccessful) {
-                Log.e("checkLocationPermissions","permisss")
                 val locationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
                 locationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->

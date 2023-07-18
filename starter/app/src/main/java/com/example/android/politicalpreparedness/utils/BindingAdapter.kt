@@ -8,30 +8,22 @@ import com.example.android.politicalpreparedness.R
 import java.text.SimpleDateFormat
 import java.util.*
 
+// Refernce https://developer.android.com/reference/java/text/SimpleDateFormat
 @BindingAdapter("dateText")
 fun TextView.bindDateText(date: Date?) {
-    text = if (date == null) {
-        ""
-    } else {
-        val format = SimpleDateFormat("EEEE, MMM. dd, yyyy • HH:mm z", Locale.US)
-        format.format(date)
-    }
-}
-
-@BindingAdapter("isFollowText")
-fun Button.bindFollowText(isFollow: Boolean) {
-    text = if (isFollow) {
-        context.getString(R.string.unfollow_button)
-    } else {
-        context.getString(R.string.follow_button)
-    }
+    val format = SimpleDateFormat("EEEE, MMM. dd, yyyy • HH:mm z", Locale.US)
+    text = date?.let { format.format(it) } ?: ""
 }
 
 @BindingAdapter("isVisible")
 fun View.bindContentVisibility(content: String?) {
-    visibility = if (content.isNullOrEmpty()) {
-        View.GONE
-    } else {
-        View.VISIBLE
-    }
+    visibility = if (!content.isNullOrEmpty()) View.VISIBLE else View.GONE
 }
+
+
+@BindingAdapter("isVoteText")
+fun Button.bindFollowText(isFollow: Boolean) {
+    text = context.getString(if (isFollow) R.string.unfollow_button else R.string.follow_button)
+}
+
+

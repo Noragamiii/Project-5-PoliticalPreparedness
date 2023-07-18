@@ -1,6 +1,5 @@
 package com.example.android.politicalpreparedness.network
 
-import com.example.android.politicalpreparedness.network.jsonadapter.DateConvert
 import com.example.android.politicalpreparedness.network.jsonadapter.ElectionAdapter
 import com.example.android.politicalpreparedness.network.models.ElectionResponse
 import com.example.android.politicalpreparedness.network.models.RepresentativeResponse

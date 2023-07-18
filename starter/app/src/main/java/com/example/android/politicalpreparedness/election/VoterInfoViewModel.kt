@@ -50,18 +50,19 @@ class VoterInfoViewModel(val election: Election, app: Application) : AndroidView
 
     fun saveElection(election: Election) {
         viewModelScope.launch {
-            if (isVote.value == true) {
+            val isElectionSaved = electionsRepository.getElection(election.id.toLong()) != null
+            if (isElectionSaved) {
                 electionsRepository.delete(election)
             } else {
                 electionsRepository.insert(election)
             }
-            _isVote.value = electionsRepository.getElection(election.id.toLong()) != null
+            _isVote.value = !isElectionSaved
         }
-
     }
 
-    fun onURLClick(url: String) {
-        Log.e("HiepNCH","aaaaaaaa")
+
+    fun onUrlClick(url: String) {
+        Log.e("HiepNCH","Test")
         this.url.value = url
         openUrl.value = url
     }
